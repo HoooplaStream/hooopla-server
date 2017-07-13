@@ -36,9 +36,7 @@ public class TorrentsManager {
 	public static List<Torrent> getTorrents() {
 		try {
 			return getClient().getAll();
-		} catch (AuthException e) {
-			e.printStackTrace();
-		} catch (NetworkException e) {
+		} catch (AuthException | NetworkException e) {
 			e.printStackTrace();
 		}
 		return new ArrayList<Torrent>();
@@ -55,9 +53,7 @@ public class TorrentsManager {
 	public static List<Torrent> getTorrent(Integer... torrent){
 		try {
 			return getClient().get(Arrays.asList(torrent));
-		} catch (AuthException e) {
-			e.printStackTrace();
-		} catch (NetworkException e) {
+		} catch (AuthException | NetworkException e) {
 			e.printStackTrace();
 		}
 		return new ArrayList<Torrent>();
