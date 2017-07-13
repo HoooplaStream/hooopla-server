@@ -4,3 +4,5 @@
 CSeries-CI.iml
 CSeries/CSeries.iml
 TransmissionRPC.iml
+/CSeries/src/main/java/fr/cseries/ci/Config.java
+/TheMovieDatabase/TheMovieDatabase.iml

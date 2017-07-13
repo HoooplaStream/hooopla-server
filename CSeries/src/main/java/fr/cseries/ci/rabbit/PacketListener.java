@@ -14,7 +14,7 @@ import java.util.List;
 
 public class PacketListener {
 
-	private static List<Class> packets   = new ArrayList<>();
+	public static List<Class> packets   = new ArrayList<>();
 
 	public PacketListener() {
 		System.out.println("[*] Loading Listener...");

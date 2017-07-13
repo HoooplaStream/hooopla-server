@@ -3,6 +3,7 @@ package fr.cseries.ci.rabbit;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import fr.cseries.ci.Config;
 
 /**
  * Gestion du rabbit
@@ -11,17 +12,14 @@ public class RabbitManager {
 
 	private static Channel channel;
 
-	/**
-	 * A executer pour mettre en place Rabbit
-	 */
 	public static void init() {
 		System.out.println("[*] Connecting to Rabbit server...");
 		try {
 			ConnectionFactory connectionFactory = new ConnectionFactory();
 
-			connectionFactory.setHost("X.X.X.X");
-			connectionFactory.setUsername("A FAIRE");
-			connectionFactory.setPassword("A FAIRE");
+			connectionFactory.setHost(Config.RABBIT_IP);
+			connectionFactory.setUsername(Config.RABBIT_USER);
+			connectionFactory.setPassword(Config.RABBIT_PASSWORD);
 
 			Connection connection = connectionFactory.newConnection();
 			channel = connection.createChannel();

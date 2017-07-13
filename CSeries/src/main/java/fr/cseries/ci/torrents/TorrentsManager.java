@@ -1,5 +1,6 @@
 package fr.cseries.ci.torrents;
 
+import fr.cseries.ci.Config;
 import fr.cseries.transmission.TransmissionClient;
 import fr.cseries.transmission.exception.AuthException;
 import fr.cseries.transmission.exception.NetworkException;
@@ -22,7 +23,7 @@ public class TorrentsManager {
 	 * @return TransmissionClient
 	 */
 	public static TransmissionClient getClient() {
-		return new TransmissionClient("cseries", "", "http://localhost/transmission/rpc");
+		return new TransmissionClient(Config.RPC_USER, Config.RPC_PASSWORD, Config.RPC_IP);
 	}
 
 	// Get
