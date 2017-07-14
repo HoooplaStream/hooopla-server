@@ -12,5 +12,6 @@ public class Video {
 
 	@Getter @Setter @NonNull private File          videoFile;
 	@Setter @Getter @NonNull private VideoPriority priority;
+	@Setter @Getter @NonNull private Double 	   percent = 0.0;
 
 }

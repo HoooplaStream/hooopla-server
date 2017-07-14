@@ -7,8 +7,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public enum  VideoPriority {
 
-	LOW(1), NORMAL(2), HIGH(3), VERY_HIGH(4);
+	LOW(1, "Faible"), NORMAL(2, "Normal"), HIGH(3, "Importante"), VERY_HIGH(4, "Très importante");
 
 	@Getter @Setter
 	private Integer priority;
+	@Getter @Setter
+	private String name;
+
 }

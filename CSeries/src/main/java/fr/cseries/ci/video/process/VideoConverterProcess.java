@@ -27,12 +27,13 @@ public class VideoConverterProcess extends Thread {
 		while (queue.getVideosToProcess().size() > 0) {
 			this.finished = false;
 			Video video = queue.getVideosToProcess().poll();
+			queue.setCurrentVideo(video);
 
 			if (video.getVideoFile().exists()) {
 				VideoConverter videoConverter = new VideoConverter(video.getVideoFile()) {
 					@Override
 					public void onProgress(Double percent) {
-						// todo envoi de packets permettant d'ajouter au panel les conversions
+						video.setPercent(percent);
 					}
 
 					@Override

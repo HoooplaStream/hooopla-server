@@ -42,7 +42,7 @@ public class VideoFinderProcess extends Thread {
 								if (!FileUtils.getExtension(episodeFile).contains(".mp4")) {
 									VideoConverterQueue.actualQueues.forEach(videoConverterQueue -> videoConverterQueue.getVideosToProcess().forEach(video -> {
 										if (video.getVideoFile().getAbsolutePath().equalsIgnoreCase(episodeFile.getAbsolutePath()))
-											toAdd.add(new Video(episodeFile, VideoPriority.NORMAL));
+											toAdd.add(new Video(episodeFile, VideoPriority.NORMAL, 0.0));
 									}));
 								}
 							}

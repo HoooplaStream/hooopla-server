@@ -3,6 +3,7 @@ package fr.cseries.ci.video;
 import fr.cseries.ci.video.objects.Video;
 import fr.cseries.ci.video.process.VideoConverterProcess;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 import java.util.*;
@@ -11,9 +12,13 @@ public class VideoConverterQueue {
 
 	public static List<VideoConverterQueue> actualQueues = new ArrayList<>();
 
-	@Getter
-	@Setter
+	@Getter @Setter @NonNull
+	public String id;
+	@Getter @Setter
 	private Queue<Video> videosToProcess = new PriorityQueue<>(Comparator.comparingInt(o -> o.getPriority().getPriority()));
+	@Getter @Setter
+	public Video currentVideo;
+
 	private VideoConverterProcess threadOpened;
 
 	/**
@@ -21,6 +26,7 @@ public class VideoConverterQueue {
 	 */
 	public VideoConverterQueue() {
 		actualQueues.add(this);
+		this.id = "queue-" + System.currentTimeMillis();
 	}
 
 	/**
