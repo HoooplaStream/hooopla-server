@@ -38,7 +38,7 @@ public class SeriesProcess extends Thread {
 			for (File f : folders) {
 				try {
 					TvSeries tv = SeriesAPI.searchForFirstSerie(f.getName());
-					Serie serie = new Serie(tv.getId(), tv.getName(), tv.getOverview(), tv.getBackdropPath(), tv.getPosterPath(), tv.getVoteAverage(), new ArrayList<>());
+					Serie serie = new Serie(tv.getId(), tv.getName(), tv.getOverview(), tv.getBackdropPath(), tv.getPosterPath(), tv.getVoteAverage(), tv.getVoteCount(), new ArrayList<>());
 
 					List<Season> seasons = new ArrayList<>();
 					File[] seasonsFiles = folder.listFiles();
@@ -53,8 +53,8 @@ public class SeriesProcess extends Thread {
 									int counter = 1;
 									File[] episodesFiles = inside.listFiles();
 									Arrays.sort(episodesFiles);
-									for(File episode : episodesFiles){
-										if(FileUtils.getExtension(episode).contains(".mp4")){
+									for (File episode : episodesFiles) {
+										if (FileUtils.getExtension(episode).contains(".mp4")) {
 											TvEpisode tvEpisode = SeriesAPI.getEpisode(serie, season, counter);
 											episodes.add(new Episode(tvEpisode.getEpisodeNumber(), tvEpisode.getName(), tvEpisode.getOverview(), Config.CDN + "/" + f.getName() + "/" + inside.getName() + "/" + episode.getName(), tvEpisode.getUserRating()));
 										}

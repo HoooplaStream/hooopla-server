@@ -15,6 +15,7 @@ public class Serie {
 	@Getter @Setter private String       background;
 	@Getter @Setter private String       cover;
 	@Getter @Setter private Float        star;
+	@Getter @Setter private Integer      voters;
 	@Getter @Setter private List<Season> seasons;
 
 }

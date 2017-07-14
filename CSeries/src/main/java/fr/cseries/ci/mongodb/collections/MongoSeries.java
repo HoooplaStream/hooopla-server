@@ -22,6 +22,7 @@ public class MongoSeries {
 			document.put("cover", serie.getCover());
 			document.put("background", serie.getBackground());
 			document.put("rating", serie.getStar());
+			document.put("voters", serie.getVoters());
 
 			long d = dbCollection.count(new Document("id", serie.getId()));
 			if (d == 0) {

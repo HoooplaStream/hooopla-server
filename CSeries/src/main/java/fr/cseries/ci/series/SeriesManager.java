@@ -35,6 +35,7 @@ public class SeriesManager {
 			jsonObject.addProperty("description", serie.getDescription());
 			jsonObject.addProperty("background", serie.getBackground());
 			jsonObject.addProperty("cover", serie.getCover());
+			jsonObject.addProperty("voters", serie.getVoters());
 			jsonObject.addProperty("rating", serie.getStar());
 
 			jsonArray.add(jsonObject);

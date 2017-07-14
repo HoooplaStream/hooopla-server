@@ -1,9 +1,5 @@
 package fr.cseries.ci;
 
-import fr.cseries.ci.rabbit.PacketListener;
-import fr.cseries.ci.rabbit.RabbitManager;
-import fr.cseries.ci.rabbit.packets.PacketRequestTorrents;
-
 import java.util.Scanner;
 
 public class Main {
