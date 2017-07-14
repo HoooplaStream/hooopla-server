@@ -2,6 +2,7 @@ package fr.cseries.ci.series;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import fr.cseries.ci.mongodb.collections.MongoSeries;
 import fr.cseries.ci.series.objects.Serie;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,12 +12,12 @@ import java.util.List;
 
 public class SeriesManager {
 
-	@Getter
-	@Setter
+	@Getter @Setter
 	public static List<Serie> series = new ArrayList<>();
 
 	public static void addSerie(Serie serie) {
 		series.add(serie);
+		MongoSeries.add(serie);
 	}
 
 	/**

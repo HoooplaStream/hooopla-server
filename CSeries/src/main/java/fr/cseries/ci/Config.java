@@ -6,6 +6,11 @@ public class Config {
 	public static String URL = "https://cseries.tk";
 	public static String CDN = "https://cdn.cseries.tk";
 
+	// MONGOIP
+	public static String MONGO_IP       = "217.182.217.53";
+	public static String MONGO_USER     = "cseries";
+	public static String MONGO_PASSWORD = "1Uij3BcTcSPLmfzdL";
+
 	// RABBITMQ
 	public static String RABBIT_IP       = "217.182.217.53";
 	public static String RABBIT_USER     = "cseries";

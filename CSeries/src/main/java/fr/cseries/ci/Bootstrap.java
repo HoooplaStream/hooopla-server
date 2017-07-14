@@ -1,11 +1,5 @@
 package fr.cseries.ci;
 
-import fr.cseries.ci.rabbit.PacketListener;
-import fr.cseries.ci.rabbit.RabbitManager;
-import fr.cseries.ci.rabbit.listener.SeriesPacketListener;
-import fr.cseries.ci.rabbit.listener.TorrentsPacketListener;
-import fr.cseries.ci.rabbit.listener.VideoPacketListener;
-import fr.cseries.ci.rabbit.packets.*;
 import fr.cseries.ci.series.SeriesProcess;
 import fr.cseries.ci.video.process.VideoFinderProcess;
 
@@ -37,7 +31,12 @@ public class Bootstrap {
 		}
 		System.out.println("[+] Folder structure verified !");
 
-		// [Rabbit]
+		// [MongoDB]
+		System.out.println("[~] Loading MongoDB...");
+
+		System.out.println("[+] MongoDB loaded !");
+
+		/*// [Rabbit]
 		System.out.println("[~] Loading RabbitMQ...");
 		// Listener
 		PacketListener.packets.add(SeriesPacketListener.class);
@@ -51,7 +50,7 @@ public class Bootstrap {
 		PacketListener.packets.add(PacketGetQueues.class);
 		// Init
 		RabbitManager.init();
-		System.out.println("[+] Rabbit loaded !");
+		System.out.println("[+] Rabbit loaded !");*/
 
 		// [Démarrage des process]
 		new SeriesProcess().run();
