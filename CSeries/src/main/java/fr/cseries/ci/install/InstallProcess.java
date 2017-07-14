@@ -16,7 +16,13 @@ public class InstallProcess {
 	 */
 	public static void boot(){
 		for (File f : folderToBeCreated) {
-			if(!f.exists()) f.mkdir();
+			if(!f.exists()){
+				if(!f.mkdir()) try {
+					throw new Exception("Le fichier " + f.getName() + " n'a pas pu être crée !");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 

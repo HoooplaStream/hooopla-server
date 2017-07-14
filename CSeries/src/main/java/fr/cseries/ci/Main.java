@@ -1,9 +1,11 @@
 package fr.cseries.ci;
 
+import fr.cseries.ci.install.InstallProcess;
 import fr.cseries.ci.rabbit.PacketListener;
 import fr.cseries.ci.rabbit.RabbitManager;
 import fr.cseries.ci.rabbit.packets.PacketRequestTorrents;
 import fr.cseries.ci.series.SeriesProcess;
+import fr.cseries.ci.video.process.VideoFinderProcess;
 
 import java.util.Scanner;
 
@@ -18,7 +20,9 @@ public class Main {
 		System.out.println("[+] Rabbit loaded !");
 
 		System.out.println("[~] Starting the server...");
-		new SeriesProcess().run();
+		InstallProcess.boot();
+		//new SeriesProcess().run();
+		//new VideoFinderProcess().run();
 		System.out.println("[+] Server started !");
 
 		Scanner cl = new Scanner(System.in);

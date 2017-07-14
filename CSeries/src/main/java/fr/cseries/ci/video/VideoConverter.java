@@ -1,7 +1,9 @@
 package fr.cseries.ci.video;
 
-import com.sun.istack.internal.NotNull;
 import fr.cseries.ci.Config;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 import net.bramp.ffmpeg.FFmpeg;
 import net.bramp.ffmpeg.FFmpegExecutor;
 import net.bramp.ffmpeg.FFprobe;
@@ -15,9 +17,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-public class VideoConverter {
+public abstract class VideoConverter {
 
+	@NonNull @Getter @Setter
 	private File file;
+	@Getter @Setter
 	private Double progressConverting = 0.0;
 
 	/**
@@ -25,10 +29,9 @@ public class VideoConverter {
 	 *
 	 * @param file Le fichier vidéo
 	 */
-	public VideoConverter(@NotNull File file) {
+	public VideoConverter(File file) {
 		this.file = file;
 	}
-
 
 	public void start() {
 		try {
@@ -46,6 +49,7 @@ public class VideoConverter {
 				@Override
 				public void progress(Progress progress) {
 					progressConverting = progress.out_time_ms / duration_ns;
+					onProgress(progressConverting);
 				}
 			});
 
@@ -55,7 +59,9 @@ public class VideoConverter {
 		}
 	}
 
-	public Double getProgress() {
-		return progressConverting;
-	}
+	// Abstract method
+
+	public abstract void onProgress(Double percent);
+	public abstract void onFinish();
+
 }

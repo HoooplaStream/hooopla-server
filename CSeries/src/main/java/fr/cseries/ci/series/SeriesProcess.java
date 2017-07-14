@@ -74,7 +74,7 @@ public class SeriesProcess extends Thread {
 			}
 
 			long end = System.currentTimeMillis();
-			System.out.println("[!] La mise à jour des séries a été faîte (en " + TimeUnit.MILLISECONDS.toSeconds(start - end) + "sec) !");
+			System.out.println("[!] La mise à jour des séries a été faîte (" + TimeUnit.MILLISECONDS.toSeconds(start - end) + "sec)");
 
 			try {
 				Thread.sleep(1000 * 60 * 10);
