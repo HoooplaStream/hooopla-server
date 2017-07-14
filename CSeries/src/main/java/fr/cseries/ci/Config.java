@@ -7,7 +7,7 @@ public class Config {
 	public static String CDN = "https://cdn.cseries.tk";
 
 	// RABBITMQ
-	public static String RABBIT_IP       = "rabbit.cseries.tk";
+	public static String RABBIT_IP       = "217.182.217.53";
 	public static String RABBIT_USER     = "cseries";
 	public static String RABBIT_PASSWORD = "3QRKpaRmkWD8hz1Fb";
 

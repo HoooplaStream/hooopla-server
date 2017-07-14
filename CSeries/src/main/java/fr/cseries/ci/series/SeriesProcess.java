@@ -24,6 +24,7 @@ public class SeriesProcess extends Thread {
 		while (true) {
 			System.out.println("[!] Mise à jour de la liste des séries...");
 			long start = System.currentTimeMillis();
+			SeriesManager.getSeries().clear();
 
 			List<File> folders = new ArrayList<>();
 

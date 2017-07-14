@@ -21,17 +21,16 @@ public class PacketListener {
 		try {
 			String queueName = RabbitManager.getChannel().queueDeclare().getQueue();
 
-			RabbitManager.getChannel().queueBind(queueName, "main", "CSERIES_CI");
-			RabbitManager.getChannel().queueBind(queueName, "main", "ALL");
+			RabbitManager.getChannel().queueBind("main", "main", "CSERIES_CI");
 			Consumer consumer = new DefaultConsumer(RabbitManager.getChannel()) {
 				@Override
 				public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
 					DataInputStream dataInputStream = new DataInputStream(new ByteArrayInputStream(body));
 					String packetName = dataInputStream.readUTF();
 					boolean b = false;
+					System.out.println("[X] Packet receive: " + packetName);
 					for (Class c : packets) {
 						if (c.getName().equalsIgnoreCase(packetName.trim())) {
-							System.out.println("[X] Packet receive: " + c.getName());
 							b = true;
 							new Thread(() -> {
 								try {
