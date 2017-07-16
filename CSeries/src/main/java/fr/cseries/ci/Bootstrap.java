@@ -53,8 +53,8 @@ public class Bootstrap {
 		System.out.println("[+] Rabbit loaded !");*/
 
 		// [Démarrage des process]
-		new SeriesProcess().run();
-		new VideoFinderProcess().run();
+		new SeriesProcess().start();
+		new VideoFinderProcess().start();
 	}
 
 }

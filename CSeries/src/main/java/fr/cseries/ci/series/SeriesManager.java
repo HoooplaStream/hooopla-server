@@ -60,7 +60,7 @@ public class SeriesManager {
 
 					jsonObject.addProperty("id", season.getId());
 					jsonObject.addProperty("name", "Saison " + season.getNumber());
-					jsonObject.addProperty("date", season.getDate());
+					jsonObject.addProperty("poster", season.getPoster());
 
 					jsonArray.add(jsonObject);
 				});

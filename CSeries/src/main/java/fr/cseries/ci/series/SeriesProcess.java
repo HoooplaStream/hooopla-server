@@ -1,6 +1,7 @@
 package fr.cseries.ci.series;
 
 import fr.cseries.ci.Config;
+import fr.cseries.ci.mongodb.collections.MongoSeries;
 import fr.cseries.ci.series.objects.Episode;
 import fr.cseries.ci.series.objects.Season;
 import fr.cseries.ci.series.objects.Serie;
@@ -40,32 +41,31 @@ public class SeriesProcess extends Thread {
 					TvSeries tv = SeriesAPI.searchForFirstSerie(f.getName());
 					Serie serie = new Serie(tv.getId(), tv.getName(), tv.getOverview(), tv.getBackdropPath(), tv.getPosterPath(), tv.getVoteAverage(), tv.getVoteCount(), new ArrayList<>());
 
-					List<Season> seasons = new ArrayList<>();
-					File[] seasonsFiles = folder.listFiles();
+					File[] seasonsFiles = f.listFiles();
 					Arrays.sort(seasonsFiles);
+					List<Season> seasons = new ArrayList<>();
 					for (File inside : seasonsFiles) {
 						if (inside.getName().contains("Saison_")) {
-							tv.getSeasons().forEach(tvSeason -> {
-								if (Objects.equals(inside.getName().replace("Saison_", ""), "" + tvSeason.getSeasonNumber())) {
-									Season season = new Season(tvSeason.getId(), tvSeason.getSeasonNumber(), tvSeason.getAirDate());
+							Season season = new Season(Integer.parseInt(inside.getName().replace("Saison_", "")), Integer.parseInt(inside.getName().replace("Saison_", "")), "");
 
-									List<Episode> episodes = new ArrayList<>();
-									int counter = 1;
-									File[] episodesFiles = inside.listFiles();
-									Arrays.sort(episodesFiles);
-									for (File episode : episodesFiles) {
-										if (FileUtils.getExtension(episode).contains(".mp4")) {
-											TvEpisode tvEpisode = SeriesAPI.getEpisode(serie, season, counter);
-											episodes.add(new Episode(tvEpisode.getEpisodeNumber(), tvEpisode.getName(), tvEpisode.getOverview(), Config.CDN + "/" + f.getName() + "/" + inside.getName() + "/" + episode.getName(), tvEpisode.getUserRating()));
-										}
-										counter++;
-									}
-									season.setEpisodeList(episodes);
+							serie.getSeasons().add(season);
 
-									seasons.add(season);
+							List<Episode> episodes = new ArrayList<>();
+							int counter = 1;
+							File[] episodesFiles = inside.listFiles();
+							Arrays.sort(episodesFiles);
+							for (File episode : episodesFiles) {
+								if (FileUtils.getExtension(episode).contains(".mp4")) {
+									TvEpisode tvEpisode = SeriesAPI.getEpisode(serie, season, counter);
+									episodes.add(new Episode(tvEpisode.getEpisodeNumber(), tvEpisode.getName(), tvEpisode.getOverview(), Config.CDN + "/" + f.getName() + "/" + inside.getName() + "/" + episode.getName(), tvEpisode.getUserRating()));
 								}
-							});
+								counter++;
+							}
+							season.setEpisodeList(episodes);
+
+							seasons.add(season);
 						}
+
 					}
 
 					SeriesManager.addSerie(serie);

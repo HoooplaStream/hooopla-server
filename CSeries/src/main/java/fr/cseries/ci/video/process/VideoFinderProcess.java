@@ -24,7 +24,7 @@ public class VideoFinderProcess extends Thread {
 			System.out.println("[~] Vérification des vidéos non convertis...");
 
 			File f = new File("/var/www/cdn");
-			if (f.exists() && f.isDirectory()) try {
+			if (!f.exists() || !f.isDirectory()) try {
 				throw new Exception("Le dossier cdn dans /var/www/cdn n'existe pas !");
 			} catch (Exception e) {
 				e.printStackTrace();
