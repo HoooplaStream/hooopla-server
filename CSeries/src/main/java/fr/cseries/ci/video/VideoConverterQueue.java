@@ -18,8 +18,10 @@ public class VideoConverterQueue {
 	private Queue<Video> videosToProcess = new PriorityQueue<>(Comparator.comparingInt(o -> o.getPriority().getPriority()));
 	@Getter @Setter
 	public Video currentVideo;
-
+	@Getter @Setter
 	private VideoConverterProcess threadOpened;
+	@Getter @Setter
+	private int counter = 0;
 
 	/**
 	 * Permet de créer une queue de conversion.
@@ -34,7 +36,7 @@ public class VideoConverterQueue {
 	 */
 	public void start() {
 		this.threadOpened = new VideoConverterProcess(this);
-		this.threadOpened.run();
+		this.threadOpened.start();
 	}
 
 	/**

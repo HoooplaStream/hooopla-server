@@ -1,5 +1,6 @@
 package fr.cseries.ci;
 
+import fr.cseries.ci.mongodb.collections.MongoConversions;
 import fr.cseries.ci.series.SeriesProcess;
 import fr.cseries.ci.video.process.VideoFinderProcess;
 
@@ -33,7 +34,7 @@ public class Bootstrap {
 
 		// [MongoDB]
 		System.out.println("[~] Loading MongoDB...");
-
+		MongoConversions.drop();
 		System.out.println("[+] MongoDB loaded !");
 
 		/*// [Rabbit]

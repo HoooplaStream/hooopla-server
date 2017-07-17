@@ -45,27 +45,28 @@ public class SeriesProcess extends Thread {
 					Arrays.sort(seasonsFiles);
 					List<Season> seasons = new ArrayList<>();
 					for (File inside : seasonsFiles) {
-						if (inside.getName().contains("Saison_")) {
-							Season season = new Season(Integer.parseInt(inside.getName().replace("Saison_", "")), Integer.parseInt(inside.getName().replace("Saison_", "")), "");
+						if (inside.isDirectory()) {
+							if (inside.getName().contains("Saison_")){
+								Season season = new Season(Integer.parseInt(inside.getName().replace("Saison_", "")), Integer.parseInt(inside.getName().replace("Saison_", "")), "");
 
-							serie.getSeasons().add(season);
+								serie.getSeasons().add(season);
 
-							List<Episode> episodes = new ArrayList<>();
-							int counter = 1;
-							File[] episodesFiles = inside.listFiles();
-							Arrays.sort(episodesFiles);
-							for (File episode : episodesFiles) {
-								if (FileUtils.getExtension(episode).contains(".mp4")) {
-									TvEpisode tvEpisode = SeriesAPI.getEpisode(serie, season, counter);
-									episodes.add(new Episode(tvEpisode.getEpisodeNumber(), tvEpisode.getName(), tvEpisode.getOverview(), Config.CDN + "/" + f.getName() + "/" + inside.getName() + "/" + episode.getName(), tvEpisode.getUserRating()));
+								List<Episode> episodes = new ArrayList<>();
+								int counter = 1;
+								File[] episodesFiles = inside.listFiles();
+								Arrays.sort(episodesFiles);
+								for (File episode : episodesFiles) {
+									if (FileUtils.getExtension(episode).contains(".mp4")) {
+										TvEpisode tvEpisode = SeriesAPI.getEpisode(serie, season, counter);
+										episodes.add(new Episode(tvEpisode.getEpisodeNumber(), tvEpisode.getName(), tvEpisode.getOverview(), Config.CDN + "/" + f.getName() + "/" + inside.getName() + "/" + episode.getName(), tvEpisode.getUserRating()));
+									}
+									counter++;
 								}
-								counter++;
+								season.setEpisodeList(episodes);
+
+								seasons.add(season);
 							}
-							season.setEpisodeList(episodes);
-
-							seasons.add(season);
 						}
-
 					}
 
 					SeriesManager.addSerie(serie);
@@ -75,7 +76,7 @@ public class SeriesProcess extends Thread {
 			}
 
 			long end = System.currentTimeMillis();
-			System.out.println("[!] La mise à jour des séries a été faîte (" + TimeUnit.MILLISECONDS.toSeconds(start - end) + "sec)");
+			System.out.println("[!] La mise à jour des séries a été faîte (" + TimeUnit.MILLISECONDS.toSeconds(end - start) + "sec)");
 
 			try {
 				Thread.sleep(1000 * 10);

@@ -1,6 +1,8 @@
 package fr.cseries.ci;
 
-import java.util.Scanner;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 
 public class Main {
 
@@ -11,14 +13,12 @@ public class Main {
 		Bootstrap.boot();
 		System.out.println("[+] Server started !");
 
-		Scanner cl = new Scanner(System.in);
-		while (true) {
-			String rep = cl.nextLine();
-			if (rep.equalsIgnoreCase("shutdown") || rep.equalsIgnoreCase("stop")) {
-				break;
-			}
+		try {
+			PrintStream out = new PrintStream(new FileOutputStream("log.txt"));
+			System.setOut(out);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
-		cl.close();
 	}
 
 

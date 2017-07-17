@@ -12,11 +12,14 @@ import lombok.Setter;
  */
 public class VideoConverterProcess extends Thread {
 
-	@Getter @Setter @NonNull
+	@Getter
+	@Setter
+	@NonNull
 	private VideoConverterQueue queue;
 	private Boolean finished = false;
 
 	public VideoConverterProcess(VideoConverterQueue queue) {
+		super();
 		this.queue = queue;
 	}
 
@@ -24,40 +27,48 @@ public class VideoConverterProcess extends Thread {
 	public void run() {
 		super.run();
 
-		while (queue.getVideosToProcess().size() > 0) {
-			this.finished = false;
-			Video video = queue.getVideosToProcess().poll();
-			queue.setCurrentVideo(video);
+		System.out.println("[-->] Démarrage du thread de conversion " + queue.getId());
 
-			if (video.getVideoFile().exists()) {
-				VideoConverter videoConverter = new VideoConverter(video.getVideoFile()) {
-					@Override
-					public void onProgress(Double percent) {
-						video.setPercent(percent);
-					}
+		while (true) {
+			if (!queue.getVideosToProcess().isEmpty()) {
+				System.out.println("[" + queue.getId() + "] La file d'attente n'est pas vide, démarrage !");
+				this.finished = false;
+				Video video = queue.getVideosToProcess().poll();
+				queue.setCurrentVideo(video);
+				queue.setCounter(queue.getCounter() + 1);
 
-					@Override
-					public void onFinish() {
-						finished = true;
+				System.out.println("[" + queue.getId() + "] Démarrage " + video.getVideoFile().getName());
+
+				if (video.getVideoFile().exists()) {
+					VideoConverter videoConverter = new VideoConverter(video.getVideoFile()) {
+						@Override
+						public void onProgress(Double percent) {
+							video.setPercent(percent);
+						}
+
+						@Override
+						public void onFinish() {
+							finished = true;
+							try {
+								wait(2000);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							getFile().delete();
+						}
+					};
+					videoConverter.start();
+					while(this.finished){
+						System.out.println("[" + queue.getId() + "] Conversion en cours de " + video.getVideoFile().getName() + " : " + video.getPercent() + "%");
 						try {
-							wait(2000);
+							Thread.sleep(2000);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-						getFile().delete();
-					}
-				};
-				videoConverter.start();
-				while (!this.finished) {
-					try {
-						wait();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
 					}
 				}
-			}
+			}else System.out.println("[" + queue.getId() + "] La file d'attente est vide !");
 		}
-
 	}
 
 }

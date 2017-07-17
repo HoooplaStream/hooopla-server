@@ -2,6 +2,7 @@ package fr.cseries.ci.video;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import org.bson.Document;
 
 public class VideoConverterResponse {
 

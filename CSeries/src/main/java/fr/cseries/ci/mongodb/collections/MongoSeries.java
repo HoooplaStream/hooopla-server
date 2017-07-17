@@ -16,7 +16,6 @@ public class MongoSeries {
 	private static MongoCollection<Document> dbCollection;
 
 	public static void add(Serie serie) {
-		String collectionName = "series";
 		if (dbCollection == null) dbCollection = MongoDB.db.getDatabase().getCollection(collectionName);
 		try {
 			HashMap<String, Object> document = new HashMap<>();
