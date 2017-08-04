@@ -47,11 +47,10 @@ public class TorrentsManager {
 	 * Permet de récupérer certains torrents
 	 *
 	 * @param torrent List<Integer> Liste d'integer représentant l'id des torrents.
-	 *
 	 * @return List<Torrent>
 	 * @see Torrent
 	 */
-	public static List<Torrent> getTorrent(Integer... torrent){
+	public static List<Torrent> getTorrent(Integer... torrent) {
 		try {
 			return getClient().get(Arrays.asList(torrent));
 		} catch (AuthException | NetworkException e) {

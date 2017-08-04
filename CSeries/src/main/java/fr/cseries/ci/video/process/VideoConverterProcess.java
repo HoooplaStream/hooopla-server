@@ -1,5 +1,6 @@
 package fr.cseries.ci.video.process;
 
+import fr.cseries.ci.mongodb.collections.MongoConversions;
 import fr.cseries.ci.video.VideoConverter;
 import fr.cseries.ci.video.VideoConverterQueue;
 import fr.cseries.ci.video.objects.Video;
@@ -37,35 +38,28 @@ public class VideoConverterProcess extends Thread {
 				queue.setCurrentVideo(video);
 				queue.setCounter(queue.getCounter() + 1);
 
-				System.out.println("[" + queue.getId() + "] Démarrage " + video.getVideoFile().getName());
+				System.out.println("[" + queue.getId() + "] Vérification " + video.getVideoFile().getName());
 
 				if (video.getVideoFile().exists()) {
+					System.out.println("[" + queue.getId() + "] Démarrage " + video.getVideoFile().getName());
 					VideoConverter videoConverter = new VideoConverter(video.getVideoFile()) {
 						@Override
-						public void onProgress(Double percent) {
-							video.setPercent(percent);
+						public void onProgress(double percent) {
+							for(Video v : queue.getVideosToProcess()){
+								if(v.getVideoFile().getAbsolutePath().equalsIgnoreCase(video.getVideoFile().getAbsolutePath())){
+									v.setPercent(percent);
+									MongoConversions.update();
+								}
+							}
 						}
 
 						@Override
 						public void onFinish() {
-							finished = true;
-							try {
-								wait(2000);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-							getFile().delete();
+
 						}
 					};
 					videoConverter.start();
-					while(this.finished){
-						System.out.println("[" + queue.getId() + "] Conversion en cours de " + video.getVideoFile().getName() + " : " + video.getPercent() + "%");
-						try {
-							Thread.sleep(2000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
+					video.getVideoFile().delete();
 				}
 			}else System.out.println("[" + queue.getId() + "] La file d'attente est vide !");
 		}

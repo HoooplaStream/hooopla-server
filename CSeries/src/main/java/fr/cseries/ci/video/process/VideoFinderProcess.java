@@ -40,14 +40,14 @@ public class VideoFinderProcess extends Thread {
 			videos.forEach(file -> {
 				if(file.exists()){
 					if (VideoConverterQueue.actualQueues.size() == 0) {
-						toAdd.add(new Video(file, VideoPriority.NORMAL, 0.0));
+						toAdd.add(new Video(file, VideoPriority.NORMAL, 0));
 					} else {
 						for (VideoConverterQueue videoConverterQueue : new ArrayList<>(VideoConverterQueue.actualQueues)){
 							boolean counter = false;
 							for(Video video : new PriorityQueue<>(videoConverterQueue.getVideosToProcess())){
 								if (video.getVideoFile().getAbsolutePath().equalsIgnoreCase(file.getAbsolutePath())) counter = true;
 							}
-							if(!counter) toAdd.add(new Video(file, VideoPriority.NORMAL, 0.0));
+							if(!counter) toAdd.add(new Video(file, VideoPriority.NORMAL, 0));
 						}
 
 					}

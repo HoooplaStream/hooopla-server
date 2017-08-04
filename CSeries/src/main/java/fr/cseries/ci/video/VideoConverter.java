@@ -1,7 +1,6 @@
 package fr.cseries.ci.video;
 
 import fr.cseries.ci.Config;
-import fr.cseries.ci.mongodb.collections.MongoConversions;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -10,7 +9,6 @@ import net.bramp.ffmpeg.FFmpegExecutor;
 import net.bramp.ffmpeg.FFmpegUtils;
 import net.bramp.ffmpeg.FFprobe;
 import net.bramp.ffmpeg.builder.FFmpegBuilder;
-import net.bramp.ffmpeg.builder.FFmpegOutputBuilder;
 import net.bramp.ffmpeg.job.FFmpegJob;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 import net.bramp.ffmpeg.progress.Progress;
@@ -44,7 +42,7 @@ public abstract class VideoConverter {
 
 			int idx = file.getName().lastIndexOf('.');
 
-			FFmpegBuilder builder = new FFmpegBuilder().setInput(file.getAbsolutePath()).overrideOutputFiles(true).addOutput(file.getParentFile().getAbsolutePath() + File.separator + file.getName().substring(0, idx) + ".mp4").setFormat("mp4").done();
+			FFmpegBuilder builder = new FFmpegBuilder().setVerbosity(FFmpegBuilder.Verbosity.ERROR).setInput(file.getAbsolutePath()).overrideOutputFiles(true).addOutput(file.getParentFile().getAbsolutePath() + File.separator + file.getName().substring(0, idx) + ".mp4").setFormat("mp4").done();
 
 			FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
 
@@ -55,24 +53,10 @@ public abstract class VideoConverter {
 
 				@Override
 				public void progress(Progress progress) {
-					progressConverting = progress.out_time_ms / duration_ns;
-					System.out.println(String.format(
-							"[%.0f%%] progress:%s frame:%d time:%s ms fps:%.0f speed:%.2fx",
-							progressConverting * 100,
-							progress.progress,
-							progress.frame,
-							FFmpegUtils.millisecondsToString(progress.out_time_ms),
-							progress.fps.doubleValue(),
-							progress.speed
-					));
-					/*MongoConversions.update();
-					if(progressConverting >= 100){
-						onFinish();
-						System.out.println("[-->] Conversion terminé : " + file.getName());
-					}*/
+					double percentage = progress.out_time_ms / duration_ns;
+					onProgress(percentage * 10000);
 				}
 			});
-
 			job.run();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -81,7 +65,8 @@ public abstract class VideoConverter {
 
 	// Abstract method
 
-	public abstract void onProgress(Double percent);
+	public abstract void onProgress(double percent);
+
 	public abstract void onFinish();
 
 }

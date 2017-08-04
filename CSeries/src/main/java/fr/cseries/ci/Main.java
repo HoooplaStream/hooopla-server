@@ -13,12 +13,12 @@ public class Main {
 		Bootstrap.boot();
 		System.out.println("[+] Server started !");
 
-		try {
+		/*try {
 			PrintStream out = new PrintStream(new FileOutputStream("log.txt"));
 			System.setOut(out);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 

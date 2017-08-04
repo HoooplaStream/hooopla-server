@@ -22,7 +22,6 @@ public class MongoConversions {
 				for (VideoConverterQueue videoConverterQueue : new ArrayList<>(VideoConverterQueue.actualQueues)){
 					HashMap<String, Object> fields = new HashMap<>();
 					fields.put("id", videoConverterQueue.getId());
-					fields.put("percentage", videoConverterQueue.getVideosToProcess());
 
 					List<Document> videos = new ArrayList<>();
 					if(videoConverterQueue.getVideosToProcess().size() > 0){
