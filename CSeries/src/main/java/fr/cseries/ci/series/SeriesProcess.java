@@ -6,14 +6,13 @@ import fr.cseries.ci.series.objects.Episode;
 import fr.cseries.ci.series.objects.Season;
 import fr.cseries.ci.series.objects.Serie;
 import fr.cseries.ci.utils.FileUtils;
+import fr.cseries.ci.video.VideoConverterQueue;
+import fr.cseries.ci.video.objects.Video;
 import info.movito.themoviedbapi.model.tv.TvEpisode;
 import info.movito.themoviedbapi.model.tv.TvSeries;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class SeriesProcess extends Thread {
@@ -29,7 +28,7 @@ public class SeriesProcess extends Thread {
 
 			List<File> folders = new ArrayList<>();
 
-			File folder = new File("/var/www/cdn");
+			File folder = new File("/var/www/cdn/series");
 			File[] content = folder.listFiles();
 			Arrays.sort(content);
 			for (File files : content) {
@@ -49,22 +48,32 @@ public class SeriesProcess extends Thread {
 							if (inside.getName().contains("Saison_")){
 								Season season = new Season(Integer.parseInt(inside.getName().replace("Saison_", "")), Integer.parseInt(inside.getName().replace("Saison_", "")), "");
 
-								serie.getSeasons().add(season);
-
 								List<Episode> episodes = new ArrayList<>();
 								int counter = 1;
 								File[] episodesFiles = inside.listFiles();
 								Arrays.sort(episodesFiles);
 								for (File episode : episodesFiles) {
-									if (FileUtils.getExtension(episode).contains(".mp4")) {
-										TvEpisode tvEpisode = SeriesAPI.getEpisode(serie, season, counter);
-										episodes.add(new Episode(tvEpisode.getEpisodeNumber(), tvEpisode.getName(), tvEpisode.getOverview(), Config.CDN + "/" + f.getName() + "/" + inside.getName() + "/" + episode.getName(), tvEpisode.getUserRating()));
+									if (FileUtils.getExtension(episode).contains("mp4")) {
+										Boolean verify = false;
+										for(VideoConverterQueue videoConverterQueue : new ArrayList<>(VideoConverterQueue.actualQueues)){
+											for(Video video : videoConverterQueue.getVideosToProcess()){
+												if(video.getVideoFile().getAbsolutePath().equalsIgnoreCase(episode.getAbsolutePath())){
+													verify = true;
+												}
+											}
+										}
+
+										if(!verify){
+											TvEpisode tvEpisode = SeriesAPI.getEpisode(serie, season, counter);
+											episodes.add(new Episode(tvEpisode.getEpisodeNumber(), tvEpisode.getName(), tvEpisode.getOverview(), Config.CDN + "/" + f.getName() + "/" + inside.getName() + "/" + episode.getName(), tvEpisode.getUserRating(), false));
+										}
 									}
 									counter++;
 								}
 								season.setEpisodeList(episodes);
 
 								seasons.add(season);
+								serie.getSeasons().add(season);
 							}
 						}
 					}

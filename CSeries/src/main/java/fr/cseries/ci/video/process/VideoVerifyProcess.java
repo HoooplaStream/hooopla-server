@@ -11,7 +11,7 @@ import lombok.Setter;
 /**
  * Process de conversion d'une queue.
  */
-public class VideoConverterProcess extends Thread {
+public class VideoVerifyProcess extends Thread {
 
 	@Getter
 	@Setter
@@ -19,7 +19,7 @@ public class VideoConverterProcess extends Thread {
 	private VideoConverterQueue queue;
 	private Boolean finished = false;
 
-	public VideoConverterProcess(VideoConverterQueue queue) {
+	public VideoVerifyProcess(VideoConverterQueue queue) {
 		super();
 		this.queue = queue;
 	}

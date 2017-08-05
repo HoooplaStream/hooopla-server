@@ -35,7 +35,7 @@ public class VideoFinderProcess extends Thread {
 			List<Video> toAdd = new ArrayList<>();
 
 			List<File> videos = new ArrayList<>();
-			FileUtils.listVideos("/var/www/cdn", videos);
+			FileUtils.listVideos("/var/www/cdn/series", videos);
 
 			videos.forEach(file -> {
 				if(file.exists()){

@@ -17,5 +17,7 @@ public class Episode {
 	private String url;
 	@Getter @Setter
 	private Float rating;
+	@Getter @Setter
+	private Boolean ready;
 
 }

@@ -49,12 +49,12 @@ public abstract class VideoConverter {
 			System.out.println("[-->] Conversion du fichier " + file.getName() + ", démarrage...");
 
 			FFmpegJob job = executor.createJob(builder, new ProgressListener() {
-				final double duration_ns = in.getFormat().duration * TimeUnit.SECONDS.toNanos(1);
+				final double duration_s = in.getFormat().duration;
 
 				@Override
 				public void progress(Progress progress) {
-					double percentage = progress.out_time_ms / duration_ns;
-					onProgress(percentage * 10000);
+					double percentage = (progress.out_time_ms * 0.001) / duration_s;
+					onProgress(percentage * 100);
 				}
 			});
 			job.run();
