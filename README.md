@@ -1,4 +1,4 @@
-<a href="https://corrige.me"><img src="https://i.imgur.com/ryVaen3.png" align="left" height="90" width="60" ></a> 
+<a href="https://corrige.me"><img src="https://i.imgur.com/ryVaen3.png" align="left" height="90" width="90" ></a> 
 ooopla.stream
 ---------
 
